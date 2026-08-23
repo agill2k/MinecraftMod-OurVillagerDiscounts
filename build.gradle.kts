@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom")
     val kotlinVersion: String by System.getProperties()
     kotlin("jvm").version(kotlinVersion)
 }
@@ -13,19 +15,18 @@ val mavenGroup: String by project
 group = mavenGroup
 repositories {}
 dependencies {
+    // Minecraft 26.1+ ships unobfuscated; Mojang names are used directly instead of yarn.
     val minecraftVersion: String by project
-    minecraft("com.mojang", "minecraft", minecraftVersion)
-    val yarnMappings: String by project
-    mappings("net.fabricmc", "yarn", yarnMappings, null, "v2")
+    minecraft("com.mojang:minecraft:$minecraftVersion")
     val loaderVersion: String by project
-    modImplementation("net.fabricmc", "fabric-loader", loaderVersion)
+    implementation("net.fabricmc:fabric-loader:$loaderVersion")
     val fabricVersion: String by project
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricVersion)
+    implementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     val fabricKotlinVersion: String by project
-    modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
+    implementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
 }
 tasks {
-    val javaVersion = JavaVersion.VERSION_21
+    val javaVersion = JavaVersion.VERSION_25
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
@@ -33,8 +34,8 @@ tasks {
         options.release.set(javaVersion.toString().toInt())
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
         }
     }
     jar { from("LICENSE") { rename { "${it}_${base.archivesName}" } } }
@@ -50,15 +51,7 @@ tasks {
     }
 }
 
+
 loom {
     accessWidenerPath.set(file("src/main/resources/ourvillagerdiscounts.accesswidener"))
-}
-
-exec {
-    commandLine("echo", "::set-output name=version::${project.version}")
-}
-
-exec {
-    val minecraftVersion: String by project
-    commandLine("echo", "::set-output name=minecraftVersion::${minecraftVersion}")
 }

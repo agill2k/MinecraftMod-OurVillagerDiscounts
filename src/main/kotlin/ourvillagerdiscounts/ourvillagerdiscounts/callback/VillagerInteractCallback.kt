@@ -2,10 +2,9 @@ package ourvillagerdiscounts.ourvillagerdiscounts.callback
 
 import net.fabricmc.fabric.api.event.Event
 import net.fabricmc.fabric.api.event.EventFactory
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.passive.VillagerEntity
-import net.minecraft.util.ActionResult
-import java.util.function.Function
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.npc.villager.Villager
+import net.minecraft.world.entity.player.Player
 
 /**
  * Callback for interacting with a villager.
@@ -15,7 +14,7 @@ import java.util.function.Function
  * - FAIL cancels further processing and does not interact with the villager.
  */
 interface VillagerInteractCallback {
-    fun interact(player: PlayerEntity, villager: VillagerEntity): ActionResult
+    fun interact(player: Player, villager: Villager): InteractionResult
 
     companion object {
         @JvmField
@@ -23,14 +22,14 @@ interface VillagerInteractCallback {
             VillagerInteractCallback::class.java
         ) { listeners: Array<VillagerInteractCallback> ->
             return@createArrayBacked object : VillagerInteractCallback {
-                override fun interact(player: PlayerEntity, villager: VillagerEntity): ActionResult {
+                override fun interact(player: Player, villager: Villager): InteractionResult {
                     for (listener in listeners) {
-                        val result: ActionResult = listener.interact(player, villager)
-                        if (result != ActionResult.PASS) {
+                        val result: InteractionResult = listener.interact(player, villager)
+                        if (result != InteractionResult.PASS) {
                             return result
                         }
                     }
-                    return ActionResult.PASS
+                    return InteractionResult.PASS
                 }
             }
         }

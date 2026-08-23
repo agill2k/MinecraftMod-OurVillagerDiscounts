@@ -6,7 +6,8 @@ pluginManagement {
     }
     plugins {
         val loomVersion: String by settings
-        id("fabric-loom").version(loomVersion)
+        // Minecraft 26.1+ ships unobfuscated; this plugin id runs Loom in its no-remap mode.
+        id("net.fabricmc.fabric-loom").version(loomVersion)
         val kotlinVersion: String by System.getProperties()
         kotlin("jvm").version(kotlinVersion)
     }
