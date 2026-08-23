@@ -35,6 +35,13 @@ jobs:
           files: "build/libs/our-villager-discounts-${{ steps.props.outputs.version }}-fabric.jar"
           name: "Fabric ${{ steps.props.outputs.version }}"
           fail_on_unmatched_files: true
+          # Auto-builds a "What's Changed" changelog from commits since the
+          # previous release. Prepended body gives the MC version at a glance.
+          generate_release_notes: true
+          body: |
+            **Minecraft ${{ steps.props.outputs.minecraftVersion }}** · Fabric · Java 25
+
+            Requires [Fabric API](https://modrinth.com/mod/fabric-api) and [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin).
       # Publishing to Modrinth and CurseForge is intentionally disabled.
       # Re-enable by uncommenting the block below (needs the Mod environment
       # plus MODRINTH_TOKEN / CF_API_TOKEN secrets).
