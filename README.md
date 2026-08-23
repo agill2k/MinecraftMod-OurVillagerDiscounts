@@ -1,3 +1,7 @@
+> [!WARNING]
+> Almost all the updates for updating this Mod to 26.1 were done by claude. Please use at your own Risk.
+
+
 # Our Villager Discounts
 
 [![Build](https://github.com/Gremlite/MinecraftMod-OurVillagerDiscounts/actions/workflows/build.yml/badge.svg?branch=fabric)](https://github.com/Gremlite/MinecraftMod-OurVillagerDiscounts/actions/workflows/build.yml)
