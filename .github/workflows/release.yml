@@ -7,6 +7,10 @@ jobs:
   release:
     environment: Mod
     runs-on: ubuntu-latest
+    # Required for softprops/action-gh-release to create the release;
+    # GITHUB_TOKEN is read-only by default on newer repos and forks.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7
       - name: Set up JDK 25
