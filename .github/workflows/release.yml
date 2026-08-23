@@ -31,21 +31,24 @@ jobs:
           files: "build/libs/our-villager-discounts-${{ steps.props.outputs.version }}-fabric.jar"
           name: "Fabric ${{ steps.props.outputs.version }}"
           fail_on_unmatched_files: true
-      - name: Upload to Modrinth
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          modrinth-id: Lw4dU9Z6
-          modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-          curseforge-id: 635348
-          curseforge-token: "${{ secrets.CF_API_TOKEN }}"
-          name: "Our Villager Discounts ${{ steps.props.outputs.version }}-fabric"
-          files: "build/libs/our-villager-discounts-${{ steps.props.outputs.version }}-fabric.jar"
-          game-versions: "${{ steps.props.outputs.minecraftVersion }}"
-          version: "${{ steps.props.outputs.version }}-fabric"
-          loaders: |
-            fabric
-          dependencies: |
-            fabric-api
-            fabric-language-kotlin
-          java: "Java 25"
-          version-type: "release"
+      # Publishing to Modrinth and CurseForge is intentionally disabled.
+      # Re-enable by uncommenting the block below (needs the Mod environment
+      # plus MODRINTH_TOKEN / CF_API_TOKEN secrets).
+      # - name: Upload to Modrinth
+      #   uses: Kir-Antipov/mc-publish@v3.3
+      #   with:
+      #     modrinth-id: Lw4dU9Z6
+      #     modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
+      #     curseforge-id: 635348
+      #     curseforge-token: "${{ secrets.CF_API_TOKEN }}"
+      #     name: "Our Villager Discounts ${{ steps.props.outputs.version }}-fabric"
+      #     files: "build/libs/our-villager-discounts-${{ steps.props.outputs.version }}-fabric.jar"
+      #     game-versions: "${{ steps.props.outputs.minecraftVersion }}"
+      #     version: "${{ steps.props.outputs.version }}-fabric"
+      #     loaders: |
+      #       fabric
+      #     dependencies: |
+      #       fabric-api
+      #       fabric-language-kotlin
+      #     java: "Java 25"
+      #     version-type: "release"
